@@ -5,6 +5,7 @@ from app.utils import get_hashed_password,verify_password, create_access_token
 from app.deps import get_current_user
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
+from app.mongo import db
 
 app = FastAPI()
 

@@ -15,10 +15,17 @@ url = URL.create(
 )
 
 engine = create_engine(url)
-Session = sessionmaker(bind=engine)
-session = Session()
+Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# session = Session()
 
 Base = declarative_base()
+
+def get_db():
+    db = Session()
+    try:
+        yield db
+    finally:
+        db.close()
 
 class UserAccount(Base):
     __tablename__ = "user_account"
@@ -40,4 +47,4 @@ class Blog(Base):
     user_id = Column(Integer, ForeignKey('user_account.id'), nullable=False, index=True)
     user = relationship("UserAccount", backref='blogs')
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
